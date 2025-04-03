@@ -34,7 +34,9 @@
    #include <gdiplus.h>
 # endif
 
-# if defined (__linux__) || defined(__unix__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__sun)
+# if defined (__linux__) || defined(__unix__) || \
+     defined(__APPLE__) || defined(__FreeBSD__) || \
+     defined(__NetBSD__) || defined(__OpenBSD__) || defined(__sun)
    #include <termios.h>
    #include <unistd.h>
    #include <X11/Xlib.h>
