@@ -6,67 +6,65 @@
 
 #include "tao.h"
 
+int terminal(void) {
 
+    //Linux清理屏幕
+    int i;
+    i = write(STDOUT_FILENO, "\033[2J\033[1;1H", 8);
 
-void terminal(void) {
-
-	struct termios old;
-	struct termios new;
-	tcgetattr(STDIN_FILENO, &old);
-	new = old;
-	new.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(STDIN_FILENO, TCSANOW, &new);
+    return i;
 }
 
-void control(void) {
+int turn_up_down(int *input) {
+    if(*input == 1) {
+        struct termios old;
+        struct termios new;
+        new = old;
+        new.c_lflag &= ~ECHO;
+        tcsetattr(STDIN_FILENO, TCSANOW, &new);
 
-	struct termios oldt;
-	struct termios newt;
-	tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-
-    printf(CLEAR);
-    printf(BEGAIN_MOUSE);
-    char key;
-    int row = 1;
-    int col = 1;
-    
-    while(1) {
-    	read(STDIN_FILENO, &key, 1);
-
-    	if(key == '\033') {
-    		read(STDIN_FILENO, &key, 1);
-    		if(key == '['){
-    			read(STDIN_FILENO, &key, 1);
-    			switch(key) {
-    				case 'w':
-    					if(row > 1) row--;
-    					break;
-    				case 's':
-    					if(row < 24) row++;
-    					break;
-    				case 'a':
-    					if(col > 1) col--;
-    					break;
-    				case 'd':
-    					if(col < 80) col++;
-    					break;
-    			}
-
-    			printf("\033[%d;%dH", row, col);
-    			printf("X");
-    			fflush(stdout);
-    		}
-    	}
-    	else if(key == 'q') {
-    		break;
-    	}
+        return 0;
     }
+    else if(input == 2) {
+    } else {
+        return 1;
+    }
+}
 
-    printf("\033[2J\033[1;1H");
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+char *open_file(const char *filename) {
+    int file = open(filename, O_RDONLY);
+    if(file >= 0) {
+        char buffer[] = (char)malloc(sizeof(char));
+        read(file, buffer, strlen(buffer));
+        close(file);
 
-    return;
+        return buffer;
+    } else {
+        write(STDOUT_FILENO, "", 0);
+    }
+}
+
+int choice(char *key) {
+
+    switch(key) {
+
+        case 'w':
+            //
+        case 's':
+            //
+        case 'a':
+            //
+        case 'd':
+            //
+        case 'i':
+            char string;
+            read(STDIN_FILENO, &string, 1);
+            write(STDOUT_FILENO, &string, 1);
+        case 'w':
+            int file = open(filename, O_RDONLY | O_CREAT | O_TRUNC, 0644);
+            write(fd, buffer, strlen(buffer));
+            close(file);
+        case 'q':
+            tcsetattr(STDIN_FILENO, TCSANOW, &)
+    }
 }

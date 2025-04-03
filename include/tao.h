@@ -53,6 +53,8 @@
 # define TRUE     1
 # define FALSE    0
 
+# define DEBUG    printf("Debug\n")
+
 //OS-type
 # if defined   (__linux__)
    #define OS_NAME         "Linux"
@@ -126,12 +128,12 @@ extern const char help[];
 extern const char error[];
 
 //这里是本程序所有函数声明的地方
-void open_file(const char *filname);
+char *open_file(const char *filename);
 //int open_create(char *name, int *output);
-void terminal(void);
-void control(void);
 int sys_type(void);
 void set_color(int color);
+int terminal(void);
+int turn_up_down(int *input);
 
 # ifdef __cplusplus
 }
